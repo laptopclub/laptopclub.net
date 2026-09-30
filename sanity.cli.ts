@@ -8,6 +8,9 @@ export default defineCliConfig({
     dataset,
     projectId
   },
+  deployment: {
+    appId: "he2g911wzol7mfamwm3wqiay"
+  },
   typegen: {
     generates: "./sanity.types.ts",
     path: ["./app/**/*.{ts,tsx}", "./lib/**/*.{ts,tsx}"],

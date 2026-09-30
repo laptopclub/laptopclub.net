@@ -3,7 +3,7 @@
   "name": "Laptop Club",
   "repo": "laptopclub/laptopclub.net",
   "productionUrl": "https://laptopclub.net",
-  "localPath": "../laptopclub-net",
+  "localPath": "../laptopclub.net",
   "smokePaths": [
     "/",
     "/studio",

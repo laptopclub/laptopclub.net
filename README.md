@@ -5,7 +5,7 @@ Foundation-based website for Laptop Club at https://laptopclub.net.
 - Framework: https://github.com/laptopclub/foundation
 - Foundation package version: 0.1.30
 - Production site: https://laptopclub.net
-- Hosted Studio: TODO
+- Hosted Studio: https://laptopclub-net.sanity.studio
 
 ## Setup
 
