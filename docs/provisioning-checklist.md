@@ -46,7 +46,7 @@ Generated: 2026-09-30T10:38:47.444Z
 - [x] Generate `SANITY_REVALIDATE_SECRET`.
 - [x] Store revalidation secret in Vercel.
 - [x] Create Sanity webhook targeting `/api/revalidate`.
-- [ ] Verify signed requests return `200` and unsigned requests return `401`.
+- [x] Verify signed requests return `200` and unsigned requests return `401`.
 
 ## 6. Content, voice and branding
 
@@ -58,14 +58,14 @@ Generated: 2026-09-30T10:38:47.444Z
 ## 7. Domains
 
 - [x] Add production and preview domains in Vercel.
-- [ ] Configure DNS.
-- [ ] Verify SSL and redirects.
+- [x] Configure DNS.
+- [x] Verify SSL and redirects.
 
 ## 8. Validation
 
 - [x] Run `pnpm validate:site ../laptopclub.net` from Foundation.
 - [x] Run `pnpm validate:site ../laptopclub.net --run-checks` before launch.
-- [ ] Smoke-test production routes.
+- [x] Smoke-test production routes.
 - [x] Add the site to `docs/consumer-sites.json`.
-- [ ] Run `pnpm validate:fleet`.
+- [x] Run `pnpm validate:fleet`.
 - [ ] Run `pnpm check:drift`.
