@@ -4,11 +4,75 @@
 
 :root {
   --font-sans: Inter;
-  --brand: 238 82% 58%;
-  --surface: 0 0% 100%;
-  --ink: 222 47% 11%;
+  --brand: 238 82% 66%;
+  --surface: 0 0% 0%;
+  --surface-muted: 0 0% 7%;
+  --surface-raised: 0 0% 11%;
+  --ink: 0 0% 100%;
+  --ink-muted: 0 0% 74%;
+  --line: 0 0% 22%;
+}
+
+html {
+  background: hsl(var(--surface));
 }
 
 body {
-  @apply bg-white text-slate-950 antialiased;
+  @apply bg-black text-white antialiased;
+}
+
+@layer utilities {
+  .bg-white,
+  .bg-slate-50,
+  .bg-brand-50 {
+    background-color: hsl(var(--surface-muted));
+  }
+
+  .bg-slate-950 {
+    background-color: hsl(var(--surface));
+  }
+
+  .text-slate-950,
+  .text-slate-900,
+  .text-slate-800,
+  .text-slate-700 {
+    color: hsl(var(--ink));
+  }
+
+  .text-slate-600,
+  .text-slate-500,
+  .text-slate-400,
+  .text-slate-300 {
+    color: hsl(var(--ink-muted));
+  }
+
+  .border-slate-200,
+  .border-slate-300,
+  .border-slate-500,
+  .border-t {
+    border-color: hsl(var(--line));
+  }
+
+  .ring-slate-900\/5 {
+    --tw-ring-color: hsl(var(--line) / 0.6);
+  }
+
+  .shadow-sm {
+    --tw-shadow-color: hsl(var(--surface));
+  }
+
+  .hover\:bg-slate-800:hover,
+  .hover\:bg-brand-50:hover,
+  .hover\:bg-brand-100:hover {
+    background-color: hsl(var(--surface-raised));
+  }
+
+  .hover\:text-slate-950:hover {
+    color: hsl(var(--ink));
+  }
+
+  .hover\:border-slate-950:hover,
+  .hover\:border-slate-300:hover {
+    border-color: hsl(var(--ink-muted));
+  }
 }
