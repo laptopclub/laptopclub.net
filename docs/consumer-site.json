@@ -1,0 +1,14 @@
+{
+  "id": "laptopclub-net",
+  "name": "Laptop Club",
+  "repo": "laptopclub/laptopclub.net",
+  "productionUrl": "https://laptopclub.net",
+  "localPath": "../laptopclub-net",
+  "smokePaths": [
+    "/",
+    "/studio",
+    "/sitemap.xml",
+    "/robots.txt"
+  ],
+  "status": "active"
+}

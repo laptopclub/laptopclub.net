@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: Inter;
+  --brand: 238 82% 58%;
+  --surface: 0 0% 100%;
+  --ink: 222 47% 11%;
+}
+
+body {
+  @apply bg-white text-slate-950 antialiased;
+}
