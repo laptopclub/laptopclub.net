@@ -6,7 +6,7 @@ import { resolve } from "./sanity/presentation";
 import { siteSchemaTypes } from "./sanity/schema-types";
 import { structure } from "./sanity/structure";
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "placeholder";
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "zbmgwp5w";
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production";
 const title = process.env.NEXT_PUBLIC_SITE_NAME ?? "Laptop Club";
 const previewOrigin = process.env.SANITY_STUDIO_PREVIEW_ORIGIN ?? process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3334";
