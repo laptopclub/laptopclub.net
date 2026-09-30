@@ -1,4 +1,4 @@
-import { pageBySlugQuery } from "@laptopclub/foundation-cms/queries";
+import { homePageQuery } from "@laptopclub/foundation-cms/queries";
 import { BlockRenderer, type PageBlock } from "@laptopclub/foundation-ui";
 import type { Metadata } from "next";
 import type { PageBySlugQueryResult } from "../lib/sanity-query-types";
@@ -25,7 +25,7 @@ async function getHomePage({ stega = true }: { stega?: boolean } = {}): Promise<
   }
 
   try {
-    const { data } = await sanityFetch({ params: { slug: "home" }, query: pageBySlugQuery, stega });
+    const { data } = await sanityFetch({ query: homePageQuery, stega });
     return data as PageBySlugQueryResult;
   } catch {
     return null;

@@ -292,12 +292,33 @@ export type SiteSettings = {
   title?: string;
   description?: string;
   logoText?: string;
+  copyrightStartYear?: number;
   primaryNavigation?: Array<
     {
       _key: string;
     } & Link
   >;
+  footerTagline?: string;
   footerNavigation?: Array<
+    {
+      _key: string;
+    } & Link
+  >;
+  footerMenus?: Array<{
+    title?: string;
+    links?: Array<
+      {
+        _key: string;
+      } & Link
+    >;
+    _key: string;
+  }>;
+  footerContact?: {
+    email?: string;
+    phone?: string;
+    address?: string;
+  };
+  socialLinks?: Array<
     {
       _key: string;
     } & Link

@@ -8,15 +8,36 @@ export type SiteSettings = SiteChrome & {
   description?: string;
 };
 
+type QueryNavigationLink = {
+  href?: string | null;
+  label?: string | null;
+  openInNewTab?: boolean | null;
+};
+
+type QueryFooterMenu = {
+  links?: QueryNavigationLink[] | null;
+  title?: string | null;
+};
+
+type ExtendedSiteSettingsQueryResult = SiteSettingsQueryResult & {
+  copyrightStartYear?: number | null;
+  footerContact?: SiteSettings["footerContact"] | null;
+  footerMenus?: QueryFooterMenu[] | null;
+  footerTagline?: string | null;
+  socialLinks?: QueryNavigationLink[] | null;
+};
+
 export const fallbackSiteSettings: SiteSettings = {
   description: "The home of Laptop Club.",
+  footerMenus: [],
   footerNavigation: [],
   logoText: env.siteName,
   primaryNavigation: [],
+  socialLinks: [],
   title: env.siteName
 };
 
-function normalizeNavigation(navigation: NonNullable<SiteSettingsQueryResult>["primaryNavigation"]): SiteSettings["primaryNavigation"] {
+function normalizeNavigation(navigation: QueryNavigationLink[] | null | undefined): SiteSettings["primaryNavigation"] {
   return (navigation ?? []).flatMap((link) => {
     if (!link.href || !link.label) {
       return [];
@@ -26,16 +47,37 @@ function normalizeNavigation(navigation: NonNullable<SiteSettingsQueryResult>["p
   });
 }
 
-function normalizeSiteSettings(settings: SiteSettingsQueryResult): SiteSettings {
+function normalizeFooterMenus(menus: QueryFooterMenu[] | null | undefined): SiteSettings["footerMenus"] {
+  return (menus ?? []).flatMap((menu) => {
+    if (!menu.title) {
+      return [];
+    }
+
+    const links = normalizeNavigation(menu.links);
+
+    if (!links?.length) {
+      return [];
+    }
+
+    return [{ links, title: menu.title }];
+  });
+}
+
+function normalizeSiteSettings(settings: ExtendedSiteSettingsQueryResult): SiteSettings {
   if (!settings?.title) {
     return fallbackSiteSettings;
   }
 
   return {
+    copyrightStartYear: settings.copyrightStartYear ?? undefined,
     description: settings.description ?? fallbackSiteSettings.description,
+    footerContact: settings.footerContact ?? undefined,
+    footerMenus: normalizeFooterMenus(settings.footerMenus),
     footerNavigation: normalizeNavigation(settings.footerNavigation),
+    footerTagline: settings.footerTagline ?? undefined,
     logoText: settings.logoText ?? settings.title,
     primaryNavigation: normalizeNavigation(settings.primaryNavigation),
+    socialLinks: normalizeNavigation(settings.socialLinks),
     title: settings.title
   };
 }
@@ -47,7 +89,7 @@ export async function getSiteSettings({ stega = true }: { stega?: boolean } = {}
 
   try {
     const { data: settings } = await sanityFetch({ query: siteSettingsQuery, stega });
-    return normalizeSiteSettings(settings as SiteSettingsQueryResult);
+    return normalizeSiteSettings(settings as ExtendedSiteSettingsQueryResult);
   } catch {
     return fallbackSiteSettings;
   }
