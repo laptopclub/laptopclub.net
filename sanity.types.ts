@@ -77,6 +77,7 @@ export type FullWidthMediaBlock = {
   title?: string;
   body?: string;
   image?: ImageWithAlt;
+  showAction?: boolean;
   action?: Link;
   background?: "plain" | "light" | "brand" | "dark";
   spacing?: "compact" | "standard" | "tall";
@@ -110,6 +111,7 @@ export type ImageTextBlock = {
   title?: string;
   body?: string;
   image?: ImageWithAlt;
+  showAction?: boolean;
   action?: Link;
   background?: "plain" | "light" | "brand" | "dark";
   spacing?: "compact" | "standard" | "tall";
@@ -147,10 +149,46 @@ export type CtaBlock = {
   eyebrow?: string;
   title?: string;
   body?: string;
-  primaryAction?: Link;
-  secondaryAction?: Link;
+  ctaItems?: Array<
+    | {
+        buttons?: Array<
+          {
+            _key: string;
+          } & Link
+        >;
+        _type: "buttonGroup";
+        _key: string;
+      }
+    | {
+        title?: string;
+        body?: string;
+        formActionUrl?: string;
+        emailFieldName?: string;
+        placeholder?: string;
+        buttonLabel?: string;
+        _type: "newsletterSignup";
+        _key: string;
+      }
+    | {
+        title?: string;
+        body?: string;
+        embedUrl?: string;
+        _type: "formEmbed";
+        _key: string;
+      }
+    | {
+        title?: string;
+        links?: Array<
+          {
+            _key: string;
+          } & Link
+        >;
+        _type: "socialLinks";
+        _key: string;
+      }
+  >;
   background?: "plain" | "light" | "brand" | "dark";
-  spacing?: "compact" | "standard" | "tall";
+  spacing?: "none" | "compact" | "standard" | "tall";
   width?: "narrow" | "standard" | "wide";
   textAlign?: "left" | "center" | "right";
   sectionId?: string;
@@ -162,6 +200,7 @@ export type HeroBlock = {
   title?: string;
   body?: string;
   image?: ImageWithAlt;
+  showCta?: boolean;
   cta?: Link;
   layout?: "textOnly" | "imageRight" | "imageLeft" | "backgroundImage";
   textAlign?: "left" | "center" | "right";
@@ -517,3 +556,1150 @@ export type AllSanitySchemaTypes =
   | SanityAssetSourceData
   | SanityImageAsset
   | Geopoint;
+
+// Source: lib/queries.ts
+// Variable: imageFields
+// Query: {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }}
+export type ImageFieldsResult = never;
+
+// Source: lib/queries.ts
+// Variable: linkFields
+// Query: {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )}
+export type LinkFieldsResult = {
+  label: never;
+  openInNewTab: never;
+  variant: never;
+  href: never;
+};
+
+// Source: lib/queries.ts
+// Variable: portableContentFields
+// Query: []{  ...,  _type == "imageWithAlt" => {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},  _type == "portableImage" => {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},  _type == "contentAction" => {    ...,    action {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )}  },  markDefs[]{    ...,    _type == "internalLink" => {      openInNewTab,      "href": select(        page->_id == "page.home" || page->slug.current == "home" => "/",        defined(page->slug.current) => "/" + page->slug.current      )    }  }}
+export type PortableContentFieldsResult = Array<never>;
+
+// Source: lib/queries.ts
+// Variable: pageFields
+// Query: {  title,  "slug": select(_id == "page.home" => "home", slug.current),  seo,  blocks[]{    ...,    cta {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},    primaryAction {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},    secondaryAction {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},    action {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},    ctaItems[]{      ...,      buttons[] {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},      links[] {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )}    },    image {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},    avatar {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},    features[]{      ...,      image {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }}    },    images[] {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},    logos[]{      ...,      image {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }}    },    content []{  ...,  _type == "imageWithAlt" => {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},  _type == "portableImage" => {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},  _type == "contentAction" => {    ...,    action {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )}  },  markDefs[]{    ...,    _type == "internalLink" => {      openInNewTab,      "href": select(        page->_id == "page.home" || page->slug.current == "home" => "/",        defined(page->slug.current) => "/" + page->slug.current      )    }  }}  }}
+export type PageFieldsResult = {
+  title: never;
+  slug: never;
+  seo: never;
+  blocks: never;
+};
+
+// Source: lib/queries.ts
+// Variable: pageBySlugQuery
+// Query: *[_type == "page" && slug.current == $slug][0]{  title,  "slug": select(_id == "page.home" => "home", slug.current),  seo,  blocks[]{    ...,    cta {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},    primaryAction {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},    secondaryAction {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},    action {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},    ctaItems[]{      ...,      buttons[] {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},      links[] {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )}    },    image {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},    avatar {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},    features[]{      ...,      image {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }}    },    images[] {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},    logos[]{      ...,      image {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }}    },    content []{  ...,  _type == "imageWithAlt" => {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},  _type == "portableImage" => {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},  _type == "contentAction" => {    ...,    action {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )}  },  markDefs[]{    ...,    _type == "internalLink" => {      openInNewTab,      "href": select(        page->_id == "page.home" || page->slug.current == "home" => "/",        defined(page->slug.current) => "/" + page->slug.current      )    }  }}  }}
+export type PageBySlugQueryResult = {
+  title: string | null;
+  slug: string | "home" | null;
+  seo: Seo | null;
+  blocks: Array<
+    | {
+        _key: string;
+        _type: "ctaBlock";
+        eyebrow?: string;
+        title?: string;
+        body?: string;
+        ctaItems: Array<
+          | {
+              buttons: Array<{
+                label: string | null;
+                openInNewTab: boolean | null;
+                variant: "inverse" | "primary" | "secondary" | null;
+                href: string | "/" | null;
+              }> | null;
+              _type: "buttonGroup";
+              _key: string;
+              links: null;
+            }
+          | {
+              title?: string;
+              body?: string;
+              embedUrl?: string;
+              _type: "formEmbed";
+              _key: string;
+              buttons: null;
+              links: null;
+            }
+          | {
+              title?: string;
+              body?: string;
+              formActionUrl?: string;
+              emailFieldName?: string;
+              placeholder?: string;
+              buttonLabel?: string;
+              _type: "newsletterSignup";
+              _key: string;
+              buttons: null;
+              links: null;
+            }
+          | {
+              title?: string;
+              links: Array<{
+                label: string | null;
+                openInNewTab: boolean | null;
+                variant: "inverse" | "primary" | "secondary" | null;
+                href: string | "/" | null;
+              }> | null;
+              _type: "socialLinks";
+              _key: string;
+              buttons: null;
+            }
+        > | null;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "none" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        image: null;
+        avatar: null;
+        features: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "faqBlock";
+        title?: string;
+        items?: Array<{
+          question?: string;
+          answer?: string;
+          _key: string;
+        }>;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        image: null;
+        avatar: null;
+        features: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "featureGridBlock";
+        eyebrow?: string;
+        title?: string;
+        body?: string;
+        features: Array<{
+          title?: string;
+          body?: string;
+          image: {
+            _type: "imageWithAlt";
+            asset: {
+              _id: string;
+              metadata: {
+                dimensions: {
+                  aspectRatio: number | null;
+                  height: number | null;
+                  width: number | null;
+                } | null;
+                lqip: string | null;
+              } | null;
+            } | null;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            caption?: string;
+          } | null;
+          _key: string;
+        }> | null;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        columns?: "2" | "3" | "4";
+        cardStyle?: "bordered" | "elevated" | "plain";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        image: null;
+        avatar: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "fullWidthMediaBlock";
+        eyebrow?: string;
+        title?: string;
+        body?: string;
+        image: {
+          _type: "imageWithAlt";
+          asset: {
+            _id: string;
+            metadata: {
+              dimensions: {
+                aspectRatio: number | null;
+                height: number | null;
+                width: number | null;
+              } | null;
+              lqip: string | null;
+            } | null;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+        } | null;
+        showAction?: boolean;
+        action: {
+          label: string | null;
+          openInNewTab: boolean | null;
+          variant: "inverse" | "primary" | "secondary" | null;
+          href: string | "/" | null;
+        } | null;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        ctaItems: null;
+        avatar: null;
+        features: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "galleryBlock";
+        eyebrow?: string;
+        title?: string;
+        body?: string;
+        images: Array<{
+          _key: string;
+          _type: "imageWithAlt";
+          asset: {
+            _id: string;
+            metadata: {
+              dimensions: {
+                aspectRatio: number | null;
+                height: number | null;
+                width: number | null;
+              } | null;
+              lqip: string | null;
+            } | null;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+        }> | null;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        columns?: "2" | "3" | "4";
+        imageRatio?: "landscape" | "portrait" | "square" | "wide";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        image: null;
+        avatar: null;
+        features: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "heroBlock";
+        eyebrow?: string;
+        title?: string;
+        body?: string;
+        image: {
+          _type: "imageWithAlt";
+          asset: {
+            _id: string;
+            metadata: {
+              dimensions: {
+                aspectRatio: number | null;
+                height: number | null;
+                width: number | null;
+              } | null;
+              lqip: string | null;
+            } | null;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+        } | null;
+        showCta?: boolean;
+        cta: {
+          label: string | null;
+          openInNewTab: boolean | null;
+          variant: "inverse" | "primary" | "secondary" | null;
+          href: string | "/" | null;
+        } | null;
+        layout?: "backgroundImage" | "imageLeft" | "imageRight" | "textOnly";
+        textAlign?: "center" | "left" | "right";
+        verticalAlign?: "bottom" | "center" | "top";
+        typographyScale?: "editorial" | "large" | "standard";
+        backgroundStyle?: "brand" | "dark" | "gradient" | "light";
+        verticalSpacing?: "compact" | "fullViewport" | "standard" | "tall";
+        sectionId?: string;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        avatar: null;
+        features: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "imageTextBlock";
+        eyebrow?: string;
+        title?: string;
+        body?: string;
+        image: {
+          _type: "imageWithAlt";
+          asset: {
+            _id: string;
+            metadata: {
+              dimensions: {
+                aspectRatio: number | null;
+                height: number | null;
+                width: number | null;
+              } | null;
+              lqip: string | null;
+            } | null;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+        } | null;
+        showAction?: boolean;
+        action: {
+          label: string | null;
+          openInNewTab: boolean | null;
+          variant: "inverse" | "primary" | "secondary" | null;
+          href: string | "/" | null;
+        } | null;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        verticalAlign?: "bottom" | "center" | "top";
+        imageRatio?: "landscape" | "portrait" | "square" | "wide";
+        imageShape?: "rounded" | "soft" | "square";
+        imagePosition?: "alternate" | "left" | "right";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        ctaItems: null;
+        avatar: null;
+        features: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "logoCloudBlock";
+        title?: string;
+        logos: Array<{
+          name?: string;
+          image: {
+            _type: "imageWithAlt";
+            asset: {
+              _id: string;
+              metadata: {
+                dimensions: {
+                  aspectRatio: number | null;
+                  height: number | null;
+                  width: number | null;
+                } | null;
+                lqip: string | null;
+              } | null;
+            } | null;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            caption?: string;
+          } | null;
+          url?: string;
+          _key: string;
+        }> | null;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        image: null;
+        avatar: null;
+        features: null;
+        images: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "richTextBlock";
+        eyebrow?: string;
+        title?: string;
+        content: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
+              listItem?: "bullet" | "number";
+              markDefs: Array<
+                | {
+                    href?: string;
+                    openInNewTab?: boolean;
+                    _type: "externalLink";
+                    _key: string;
+                  }
+                | {
+                    page?: PageReference;
+                    openInNewTab: boolean | null;
+                    _type: "internalLink";
+                    _key: string;
+                    href: string | "/" | null;
+                  }
+              > | null;
+              level?: number;
+              _type: "block";
+              _key: string;
+            }
+          | {
+              tone?: "note" | "tip" | "warning";
+              title?: string;
+              body?: string;
+              _type: "callout";
+              _key: string;
+              markDefs: null;
+            }
+          | {
+              action: {
+                label: string | null;
+                openInNewTab: boolean | null;
+                variant: "inverse" | "primary" | "secondary" | null;
+                href: string | "/" | null;
+              } | null;
+              variant?: "primary" | "secondary";
+              _type: "contentAction";
+              _key: string;
+              markDefs: null;
+            }
+          | {
+              label?: string;
+              _type: "divider";
+              _key: string;
+              markDefs: null;
+            }
+          | {
+              _key: string;
+              _type: "imageWithAlt";
+              asset: {
+                _id: string;
+                metadata: {
+                  dimensions: {
+                    aspectRatio: number | null;
+                    height: number | null;
+                    width: number | null;
+                  } | null;
+                  lqip: string | null;
+                } | null;
+              } | null;
+              media?: unknown;
+              hotspot?: SanityImageHotspot;
+              crop?: SanityImageCrop;
+              alt?: string;
+              caption?: string;
+              markDefs: null;
+            }
+          | {
+              asset: {
+                _id: string;
+                metadata: {
+                  dimensions: {
+                    aspectRatio: number | null;
+                    height: number | null;
+                    width: number | null;
+                  } | null;
+                  lqip: string | null;
+                } | null;
+              } | null;
+              media?: unknown;
+              hotspot?: SanityImageHotspot;
+              crop?: SanityImageCrop;
+              alt?: string;
+              caption?: string;
+              width?: "full" | "narrow" | "standard";
+              align?: "center" | "left" | "right";
+              shape?: "rounded" | "soft" | "square";
+              _type: "portableImage";
+              _key: string;
+              markDefs: null;
+            }
+          | {
+              quote?: string;
+              attribution?: string;
+              _type: "pullQuote";
+              _key: string;
+              markDefs: null;
+            }
+        > | null;
+        width?: "narrow" | "standard";
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        textSize?: "large" | "standard";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        image: null;
+        avatar: null;
+        features: null;
+        images: null;
+        logos: null;
+      }
+    | {
+        _key: string;
+        _type: "testimonialBlock";
+        quote?: string;
+        avatar: {
+          _type: "imageWithAlt";
+          asset: {
+            _id: string;
+            metadata: {
+              dimensions: {
+                aspectRatio: number | null;
+                height: number | null;
+                width: number | null;
+              } | null;
+              lqip: string | null;
+            } | null;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+        } | null;
+        name?: string;
+        role?: string;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        image: null;
+        features: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+  > | null;
+} | null;
+
+// Source: lib/queries.ts
+// Variable: homePageQuery
+// Query: *[_type == "page" && (_id == "page.home" || slug.current == "home")][0]{  title,  "slug": select(_id == "page.home" => "home", slug.current),  seo,  blocks[]{    ...,    cta {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},    primaryAction {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},    secondaryAction {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},    action {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},    ctaItems[]{      ...,      buttons[] {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )},      links[] {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )}    },    image {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},    avatar {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},    features[]{      ...,      image {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }}    },    images[] {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},    logos[]{      ...,      image {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }}    },    content []{  ...,  _type == "imageWithAlt" => {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},  _type == "portableImage" => {  ...,  asset->{    _id,    metadata{      dimensions{        aspectRatio,        height,        width      },      lqip    }  }},  _type == "contentAction" => {    ...,    action {  label,  openInNewTab,  variant,  "href": select(    page->_id == "page.home" || page->slug.current == "home" => "/",    defined(page->slug.current) => "/" + page->slug.current,    href  )}  },  markDefs[]{    ...,    _type == "internalLink" => {      openInNewTab,      "href": select(        page->_id == "page.home" || page->slug.current == "home" => "/",        defined(page->slug.current) => "/" + page->slug.current      )    }  }}  }}
+export type HomePageQueryResult = {
+  title: string | null;
+  slug: string | "home" | null;
+  seo: Seo | null;
+  blocks: Array<
+    | {
+        _key: string;
+        _type: "ctaBlock";
+        eyebrow?: string;
+        title?: string;
+        body?: string;
+        ctaItems: Array<
+          | {
+              buttons: Array<{
+                label: string | null;
+                openInNewTab: boolean | null;
+                variant: "inverse" | "primary" | "secondary" | null;
+                href: string | "/" | null;
+              }> | null;
+              _type: "buttonGroup";
+              _key: string;
+              links: null;
+            }
+          | {
+              title?: string;
+              body?: string;
+              embedUrl?: string;
+              _type: "formEmbed";
+              _key: string;
+              buttons: null;
+              links: null;
+            }
+          | {
+              title?: string;
+              body?: string;
+              formActionUrl?: string;
+              emailFieldName?: string;
+              placeholder?: string;
+              buttonLabel?: string;
+              _type: "newsletterSignup";
+              _key: string;
+              buttons: null;
+              links: null;
+            }
+          | {
+              title?: string;
+              links: Array<{
+                label: string | null;
+                openInNewTab: boolean | null;
+                variant: "inverse" | "primary" | "secondary" | null;
+                href: string | "/" | null;
+              }> | null;
+              _type: "socialLinks";
+              _key: string;
+              buttons: null;
+            }
+        > | null;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "none" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        image: null;
+        avatar: null;
+        features: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "faqBlock";
+        title?: string;
+        items?: Array<{
+          question?: string;
+          answer?: string;
+          _key: string;
+        }>;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        image: null;
+        avatar: null;
+        features: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "featureGridBlock";
+        eyebrow?: string;
+        title?: string;
+        body?: string;
+        features: Array<{
+          title?: string;
+          body?: string;
+          image: {
+            _type: "imageWithAlt";
+            asset: {
+              _id: string;
+              metadata: {
+                dimensions: {
+                  aspectRatio: number | null;
+                  height: number | null;
+                  width: number | null;
+                } | null;
+                lqip: string | null;
+              } | null;
+            } | null;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            caption?: string;
+          } | null;
+          _key: string;
+        }> | null;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        columns?: "2" | "3" | "4";
+        cardStyle?: "bordered" | "elevated" | "plain";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        image: null;
+        avatar: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "fullWidthMediaBlock";
+        eyebrow?: string;
+        title?: string;
+        body?: string;
+        image: {
+          _type: "imageWithAlt";
+          asset: {
+            _id: string;
+            metadata: {
+              dimensions: {
+                aspectRatio: number | null;
+                height: number | null;
+                width: number | null;
+              } | null;
+              lqip: string | null;
+            } | null;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+        } | null;
+        showAction?: boolean;
+        action: {
+          label: string | null;
+          openInNewTab: boolean | null;
+          variant: "inverse" | "primary" | "secondary" | null;
+          href: string | "/" | null;
+        } | null;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        ctaItems: null;
+        avatar: null;
+        features: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "galleryBlock";
+        eyebrow?: string;
+        title?: string;
+        body?: string;
+        images: Array<{
+          _key: string;
+          _type: "imageWithAlt";
+          asset: {
+            _id: string;
+            metadata: {
+              dimensions: {
+                aspectRatio: number | null;
+                height: number | null;
+                width: number | null;
+              } | null;
+              lqip: string | null;
+            } | null;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+        }> | null;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        columns?: "2" | "3" | "4";
+        imageRatio?: "landscape" | "portrait" | "square" | "wide";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        image: null;
+        avatar: null;
+        features: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "heroBlock";
+        eyebrow?: string;
+        title?: string;
+        body?: string;
+        image: {
+          _type: "imageWithAlt";
+          asset: {
+            _id: string;
+            metadata: {
+              dimensions: {
+                aspectRatio: number | null;
+                height: number | null;
+                width: number | null;
+              } | null;
+              lqip: string | null;
+            } | null;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+        } | null;
+        showCta?: boolean;
+        cta: {
+          label: string | null;
+          openInNewTab: boolean | null;
+          variant: "inverse" | "primary" | "secondary" | null;
+          href: string | "/" | null;
+        } | null;
+        layout?: "backgroundImage" | "imageLeft" | "imageRight" | "textOnly";
+        textAlign?: "center" | "left" | "right";
+        verticalAlign?: "bottom" | "center" | "top";
+        typographyScale?: "editorial" | "large" | "standard";
+        backgroundStyle?: "brand" | "dark" | "gradient" | "light";
+        verticalSpacing?: "compact" | "fullViewport" | "standard" | "tall";
+        sectionId?: string;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        avatar: null;
+        features: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "imageTextBlock";
+        eyebrow?: string;
+        title?: string;
+        body?: string;
+        image: {
+          _type: "imageWithAlt";
+          asset: {
+            _id: string;
+            metadata: {
+              dimensions: {
+                aspectRatio: number | null;
+                height: number | null;
+                width: number | null;
+              } | null;
+              lqip: string | null;
+            } | null;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+        } | null;
+        showAction?: boolean;
+        action: {
+          label: string | null;
+          openInNewTab: boolean | null;
+          variant: "inverse" | "primary" | "secondary" | null;
+          href: string | "/" | null;
+        } | null;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        verticalAlign?: "bottom" | "center" | "top";
+        imageRatio?: "landscape" | "portrait" | "square" | "wide";
+        imageShape?: "rounded" | "soft" | "square";
+        imagePosition?: "alternate" | "left" | "right";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        ctaItems: null;
+        avatar: null;
+        features: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "logoCloudBlock";
+        title?: string;
+        logos: Array<{
+          name?: string;
+          image: {
+            _type: "imageWithAlt";
+            asset: {
+              _id: string;
+              metadata: {
+                dimensions: {
+                  aspectRatio: number | null;
+                  height: number | null;
+                  width: number | null;
+                } | null;
+                lqip: string | null;
+              } | null;
+            } | null;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            caption?: string;
+          } | null;
+          url?: string;
+          _key: string;
+        }> | null;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        image: null;
+        avatar: null;
+        features: null;
+        images: null;
+        content: null;
+      }
+    | {
+        _key: string;
+        _type: "richTextBlock";
+        eyebrow?: string;
+        title?: string;
+        content: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
+              listItem?: "bullet" | "number";
+              markDefs: Array<
+                | {
+                    href?: string;
+                    openInNewTab?: boolean;
+                    _type: "externalLink";
+                    _key: string;
+                  }
+                | {
+                    page?: PageReference;
+                    openInNewTab: boolean | null;
+                    _type: "internalLink";
+                    _key: string;
+                    href: string | "/" | null;
+                  }
+              > | null;
+              level?: number;
+              _type: "block";
+              _key: string;
+            }
+          | {
+              tone?: "note" | "tip" | "warning";
+              title?: string;
+              body?: string;
+              _type: "callout";
+              _key: string;
+              markDefs: null;
+            }
+          | {
+              action: {
+                label: string | null;
+                openInNewTab: boolean | null;
+                variant: "inverse" | "primary" | "secondary" | null;
+                href: string | "/" | null;
+              } | null;
+              variant?: "primary" | "secondary";
+              _type: "contentAction";
+              _key: string;
+              markDefs: null;
+            }
+          | {
+              label?: string;
+              _type: "divider";
+              _key: string;
+              markDefs: null;
+            }
+          | {
+              _key: string;
+              _type: "imageWithAlt";
+              asset: {
+                _id: string;
+                metadata: {
+                  dimensions: {
+                    aspectRatio: number | null;
+                    height: number | null;
+                    width: number | null;
+                  } | null;
+                  lqip: string | null;
+                } | null;
+              } | null;
+              media?: unknown;
+              hotspot?: SanityImageHotspot;
+              crop?: SanityImageCrop;
+              alt?: string;
+              caption?: string;
+              markDefs: null;
+            }
+          | {
+              asset: {
+                _id: string;
+                metadata: {
+                  dimensions: {
+                    aspectRatio: number | null;
+                    height: number | null;
+                    width: number | null;
+                  } | null;
+                  lqip: string | null;
+                } | null;
+              } | null;
+              media?: unknown;
+              hotspot?: SanityImageHotspot;
+              crop?: SanityImageCrop;
+              alt?: string;
+              caption?: string;
+              width?: "full" | "narrow" | "standard";
+              align?: "center" | "left" | "right";
+              shape?: "rounded" | "soft" | "square";
+              _type: "portableImage";
+              _key: string;
+              markDefs: null;
+            }
+          | {
+              quote?: string;
+              attribution?: string;
+              _type: "pullQuote";
+              _key: string;
+              markDefs: null;
+            }
+        > | null;
+        width?: "narrow" | "standard";
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        textSize?: "large" | "standard";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        image: null;
+        avatar: null;
+        features: null;
+        images: null;
+        logos: null;
+      }
+    | {
+        _key: string;
+        _type: "testimonialBlock";
+        quote?: string;
+        avatar: {
+          _type: "imageWithAlt";
+          asset: {
+            _id: string;
+            metadata: {
+              dimensions: {
+                aspectRatio: number | null;
+                height: number | null;
+                width: number | null;
+              } | null;
+              lqip: string | null;
+            } | null;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+        } | null;
+        name?: string;
+        role?: string;
+        background?: "brand" | "dark" | "light" | "plain";
+        spacing?: "compact" | "standard" | "tall";
+        width?: "narrow" | "standard" | "wide";
+        textAlign?: "center" | "left" | "right";
+        sectionId?: string;
+        cta: null;
+        primaryAction: null;
+        secondaryAction: null;
+        action: null;
+        ctaItems: null;
+        image: null;
+        features: null;
+        images: null;
+        logos: null;
+        content: null;
+      }
+  > | null;
+} | null;
+

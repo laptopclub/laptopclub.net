@@ -1,4 +1,4 @@
-import { allPageSlugsQuery, pageBySlugQuery } from "@laptopclub/foundation-cms/queries";
+import { allPageSlugsQuery, pageBySlugQuery } from "../../lib/queries";
 import { BlockRenderer, type PageBlock } from "@laptopclub/foundation-ui";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";

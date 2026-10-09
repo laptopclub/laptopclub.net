@@ -1,4 +1,4 @@
-import { homePageQuery } from "@laptopclub/foundation-cms/queries";
+import { homePageQuery } from "../lib/queries";
 import { BlockRenderer, type PageBlock } from "@laptopclub/foundation-ui";
 import type { Metadata } from "next";
 import type { PageBySlugQueryResult } from "../lib/sanity-query-types";
@@ -14,8 +14,7 @@ const fallbackBlocks: PageBlock[] = [
     _type: "heroBlock",
     eyebrow: "Laptop Club",
     title: "A practical home for better websites",
-    body: "We are setting up the new Laptop Club site on Foundation, our reusable Next.js and Sanity framework.",
-    cta: { label: "Open Studio", href: "/studio" }
+    body: "We are setting up the new Laptop Club site on Foundation, our reusable Next.js and Sanity framework."
   }
 ];
 
