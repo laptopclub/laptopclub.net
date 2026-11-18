@@ -5,7 +5,7 @@ This file captures site-specific rules for AI agents working in this repository.
 ## Project summary
 
 - Site: Laptop Club
-- Foundation package version: 0.1.30
+- Foundation package version: 0.1.38
 - Production URL: https://laptopclub.net
 - Sanity project/dataset: zbmgwp5w / production
 
